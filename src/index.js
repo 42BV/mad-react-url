@@ -11,3 +11,4 @@ export type { UrlBuilderOptions } from './urlBuilder';
 export { urlQueryBuilder } from './urlQueryBuilder';
 export type { UrlOptions } from './urlQueryBuilder';
 
+export { withQueryParams } from './withQueryParams';
