@@ -1,6 +1,6 @@
 {
   "name": "mad-react-url",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "This library makes it easy to define URL's and type them with flow.",
   "files": [
     "lib"
@@ -27,7 +27,8 @@
     "query-string": "4.3.4"
   },
   "peerDependencies": {
-    "react": "^16.2.0"
+    "react": "^16.2.0",
+    "react-router-dom": "^4.2.2"
   },
   "devDependencies": {
     "babel": "6.23.0",

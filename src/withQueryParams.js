@@ -2,8 +2,9 @@
 
 import * as React from 'react';
 import { parse } from 'query-string';
+import type { Location } from 'react-router-dom';
 
-export function withQueryParams<Props: { location: { search: string } }>(
+export function withQueryParams<Props: { location: Location }>(
   WrappedComponent: React.ComponentType<Props>,
   defaultQueryParams: Object
 ) {
