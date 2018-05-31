@@ -10,6 +10,10 @@ This library makes it easy to define URL's and type them with flow.
 
 `npm install mad-react-url --save`
 
+# Example
+
+If you just want to see a complete [example in code go here](/example).
+
 # The problems with routes in react-router
 
 This library wants to solve the following two problems:
@@ -79,7 +83,6 @@ export function toUserCreate(): Url {
 
 // Or programmatically
 this.props.history.push(toUserCreate());
-
 ```
 
 If the route has path parameters:
@@ -94,7 +97,7 @@ import { urlQueryBuilder } from 'mad-react-url';
 type UserEditPathParams = { id: number };
 
 // This url function takes a path parameter called :id
-export function toUserEdit(pathParams?: UserEditParams): Url {
+export function toUserEdit(pathParams?: UserEditPathParams): Url {
   return urlQueryBuilder({
     url: '/users/:id/edit',
     pathParams
@@ -125,8 +128,10 @@ type UserListQueryParams = { page: number, search: string };
 // We recommend defining the default query params in the UserList component's file.
 const defaultUserListQueryParams = { page: 1, search: '' };
 
-// This url function has query params page and search.
-export function toUsers(queryParams?: UserListQueryParams): Url {
+// This url function has query params page and search, they are both
+// optional because of $Shape. $Shapes takes an object type definition
+// and makes all keys optional, and does not allow unknown keys.
+export function toUsers(queryParams?: $Shape<UserListQueryParams>): Url {
   return urlQueryBuilder({
     url: '/users',
     queryParams,
@@ -151,9 +156,9 @@ the urls are as small as possible.
 Here are some examples:
 
 ```js
-toUsers({page: 1, search: ''})        // /users.
-toUsers({page: 42, search: ''})       // /users?page42.
-toUsers({page: 1, search: 'answer'})  // /users?answer=42.
+toUsers({page: 1, search: ''})        // /users
+toUsers({page: 42, search: ''})       // /users?page=42
+toUsers({page: 1, search: 'answer'})  // /users?answer=42
 ```
 
 ## Solution two: query params are strings
@@ -191,7 +196,9 @@ type Props = {
   queryParams: UserListQueryParams
 };
 
-export class UserList extends Component<Props, void> {
+type State = {};
+
+export class UserList extends Component<Props, State> {
   
   // If a query param needs to change simply route to it!
   queryChanged(query: string) {
