@@ -7,7 +7,7 @@ layout: default
 Here's an example containing a `Dashboard` component which has
 both query params and path parameters.
 
-For a [rationale on why and how mad-react-url works click here](/).
+For a [rationale on why and how mad-react-url works click here]({{ "/" | prepend: site.baseurl }}).
 
 ## Dashboard.js
 

@@ -12,7 +12,7 @@ This library makes it easy to define URL's and type them with flow.
 
 # Example
 
-If you just want to see a complete [example in code go here](/example).
+If you just want to see a complete [example in code go here]({{ "/example" | prepend: site.baseurl }}).
 
 # The problems with routes in react-router
 
