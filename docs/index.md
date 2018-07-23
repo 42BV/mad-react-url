@@ -91,14 +91,14 @@ If the route has path parameters:
 //@flow
 
 import type { Url } from 'mad-react-url';
-import { urlQueryBuilder } from 'mad-react-url';
+import { urlBuilder } from 'mad-react-url';
 
 // We recommend defining this type in the UserEdit component's file.
 type UserEditPathParams = { id: number };
 
 // This url function takes a path parameter called :id
 export function toUserEdit(pathParams?: UserEditPathParams): Url {
-  return urlQueryBuilder({
+  return urlBuilder({
     url: '/users/:id/edit',
     pathParams
   });
@@ -120,7 +120,7 @@ If the route has query params:
 //@flow
 
 import type { Url } from 'mad-react-url';
-import { urlQueryBuilder } from 'mad-react-url';
+import { urlBuilder } from 'mad-react-url';
 
 // We recommend defining this type in the UserList component's file.
 type UserListQueryParams = { page: number, search: string };
@@ -132,7 +132,7 @@ const defaultUserListQueryParams = { page: 1, search: '' };
 // optional because of $Shape. $Shapes takes an object type definition
 // and makes all keys optional, and does not allow unknown keys.
 export function toUsers(queryParams?: $Shape<UserListQueryParams>): Url {
-  return urlQueryBuilder({
+  return urlBuilder({
     url: '/users',
     queryParams,
     defaultQueryParams: defaultUserListQueryParams
@@ -176,19 +176,18 @@ import React, { Component } from 'react';
 import type { RouterHistory, Location } from 'react-router-dom';
 import { withQueryParams } from 'mad-react-url';
 
-// toUsers is a url function
-import { toUsers } from './links';
-
-export type UserListQueryParams = {
+type UserListQueryParams = {
   page: number,
   query: string
 };
 
 // You should freeze the object to prevent manipulation.
-export const defaultUserListQueryParams: UserListQueryParams = Object.freeze({
-  page: 1,
-  query: ''
-});
+export function defaultUserListQueryParams(): UserListQueryParams {
+  return {
+    page: 1,
+    query: ''
+  };
+}
 
 type Props = {
   history: RouterHistory,
@@ -219,12 +218,31 @@ export class UserList extends Component<Props, State> {
   }
 }
  
-export default withQueryParams(UserList, defaultUserListQueryParams);
+export default withQueryParams(UserList, defaultUserListQueryParams());
 ```
 
 Now you can render it in a route, and the query params will be
 available in the props:
 
 ```js
- <Route exact path={links.toUsers()} component={UserList} />
+ <Route exact path={toUsers()} component={UserList} />
 ```
+
+Query params by default are strings, `mad-react-url` tries to convert
+them to more concrete types. It does does based on the default query
+params you give to `withQueryParams`. It does the following 
+transformations:
+
+1. If the default query param is a boolean it converts to boolean.
+2. If the default query param is a number it converts to number.
+   Also works for fractions such as `3.14`.
+3. If the default query param is an array of booleans in converts
+   to an array of booleans.
+4. If the default query param is an array of numbers in converts
+   to an array of numbers.
+
+It does not transform values when:
+
+1. The default query param is a string.
+2. The default query param is an empty array.
+

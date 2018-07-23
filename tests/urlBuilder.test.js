@@ -2,36 +2,42 @@
 
 import { urlBuilder } from '../src/urlBuilder';
 
-const url = '/users/:id/edit';
+describe('urlBuilder', () => {
+  it('should know how to return abstract urls', () => {
+    const url = '/users/:id';
 
-describe('test urlBuilder', () => {
-  test('no path params', () => {
-    const generatedUrl = urlBuilder({ url });
-    expect(generatedUrl).toBe(url);
+    expect(urlBuilder({ url })).toBe(url);
   });
 
-  test('with path params', () => {
-    const generatedUrl = urlBuilder({ url, pathParams: { id: 1 } });
-    expect(generatedUrl).toBe('/users/1/edit');
+  it('should know how to return full urls with paths params', () => {
+    const url = '/users/:id';
+    const pathParams = { id: 891 };
+
+    const expected = '/users/891';
+
+    expect(urlBuilder({ url, pathParams })).toBe(expected);
   });
 
-  test('with path param at the end', () => {
-    const generatedUrl = urlBuilder({
-      url: '/users/:id',
-      pathParams: { id: 89 }
-    });
-    expect(generatedUrl).toBe('/users/89');
+  it('should know how to return urls with query params', () => {
+    const url = '/users';
+    const queryParams = { search: 'awesome', num: 23 };
+    const defaultQueryParams = {};
+
+    const expected = '/users?num=23&search=awesome';
+
+    expect(urlBuilder({ url, queryParams, defaultQueryParams })).toBe(expected);
   });
 
-  test('with some missing/extra params', () => {
-    const generatedUrl = urlBuilder({
-      url: '/users/:id/edit/:idd/employee',
-      pathParams: {
-        idd: 3,
-        awesome: 'hello',
-        do: 'nothing'
-      }
-    });
-    expect(generatedUrl).toBe('/users/:id/edit/3/employee');
+  it('should know how to return urls with paths params and query params', () => {
+    const url = '/users/:id';
+    const pathParams = { id: 891 };
+    const queryParams = { search: 'awesome', num: 23 };
+    const defaultQueryParams = {};
+
+    const expected = '/users/891?num=23&search=awesome';
+
+    expect(
+      urlBuilder({ url, pathParams, queryParams, defaultQueryParams })
+    ).toBe(expected);
   });
 });

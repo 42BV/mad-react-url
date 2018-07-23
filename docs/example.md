@@ -16,23 +16,26 @@ For a [rationale on why and how mad-react-url works click here](/).
 
 import React, { Component } from 'react';
 import type { RouterHistory, Location, Match } from 'react-router-dom';
-import { withQueryParams } from 'mad-react-url';
+import type { Url } from 'mad-react-url';
+import { withQueryParams, urlBuilder } from 'mad-react-url';
 
 import { toDashboard } from './links';
 
-export type DashboardPathParams = {
+type DashboardPathParams = {
   id: number
 };
 
-export type DashboardQueryParams = {
+type DashboardQueryParams = {
   page: number,
   query: string
 };
 
-export const defaultDashboardQueryParams: DashboardQueryParams = Object.freeze({
-  page: 1,
-  query: ''
-});
+export function defaultDashboardQueryParams(): DashboardQueryParams {
+  return {
+    page: 1,
+    query: ''
+  };
+}
 
 type Props = {
   history: RouterHistory,
@@ -64,7 +67,7 @@ export class Dashboard extends Component<Props, State> {
     this.loadData(queryParams);
   }
 
-  async loadData(queryParams: UserListQueryParams) {
+  async loadData(queryParams: DashboardQueryParams) {
     const id = parseInt(this.props.match.params.id, 10);
 
     const response = await fetch(`api/user/${id}?page=${queryParams.page}&query=${queryParams.query}`);
@@ -99,28 +102,17 @@ export class Dashboard extends Component<Props, State> {
   }
 }
 
-export default withQueryParams(UserList, defaultUserListQueryParams);
-```
-
-## Links.js
-
-```js
-//@flow
-
-import type { Url } from 'mad-react-url';
-import { urlQueryBuilder } from 'mad-react-url';
-
-import type { DashboardPathParams, DashboardQueryParams } from './Dashboard';
+export default withQueryParams(Dashboard, defaultDashboardQueryParams());
 
 export function toDashboard(
   pathParams?: DashboardPathParams,
   queryParams?: $Shape<DashboardQueryParams>
 ): Url {
-  return urlQueryBuilder({
+  return urlBuilder({
     url: '/dashboard/:id',
     pathParams,
     queryParams,
-    defaultQueryParams: defaultUserListQueryParams
+    defaultQueryParams: defaultDashboardQueryParams()
   });
 }
 ```
@@ -134,9 +126,7 @@ import React from 'react';
 
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 
-import Dashboard from './Dashboard';
-
-import * as links from './links';
+import Dashboard, { toDashboard } from './Dashboard';
 
 export default function Routes() {
   return (
@@ -145,7 +135,7 @@ export default function Routes() {
         <Link to={toDashboard({ id: 1 })}>Dashboard</Link>
 
         <Switch>
-          <Route exact path={links.toDashboard()} component={Dashboard} />
+          <Route exact path={toDashboard()} component={Dashboard} />
         </Switch>
       </div>
     </BrowserRouter>
