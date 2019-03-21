@@ -1,5 +1,3 @@
-// @flow
-
 import { pathParamsBuilder } from '../src/pathParamsBuilder';
 
 const url = '/users/:id/edit';
@@ -13,7 +11,7 @@ describe('test pathParamsBuilder', () => {
   test('with path param at the end', () => {
     const generatedUrl = pathParamsBuilder({
       url: '/users/:id',
-      pathParams: { id: 89 }
+      pathParams: { id: 89 },
     });
     expect(generatedUrl).toBe('/users/89');
   });
@@ -24,8 +22,8 @@ describe('test pathParamsBuilder', () => {
       pathParams: {
         idd: 3,
         awesome: 'hello',
-        do: 'nothing'
-      }
+        do: 'nothing',
+      },
     });
     expect(generatedUrl).toBe('/users/:id/edit/3/employee');
   });

@@ -1,15 +1,29 @@
-// @flow
-
 import { stringify } from 'query-string';
 import reduce from 'lodash.reduce';
 
-import type { Url } from './models';
+import { Url } from './models';
 
-export type QueryParamsBuilderOptions = {
-  url: Url,
-  queryParams: Object,
-  defaultQueryParams: Object
-};
+export type QueryParams = Record<string, any>;
+
+export interface QueryParamsBuilderOptions {
+  url: Url;
+  queryParams: QueryParams;
+  defaultQueryParams: QueryParams;
+}
+
+function ignoreDefaultQueryParameters(queryParams: QueryParams, defaultQueryParams: QueryParams): object {
+  // Remove all values from the queryParams which match the defaultQueryParams
+  return reduce(
+    queryParams,
+    (result: Record<string, string>, value: string, key: string) => {
+      if (value !== defaultQueryParams[key]) {
+        result[key] = value;
+      }
+      return result;
+    },
+    {},
+  );
+}
 
 /**
  * Takes a URL and query builder options and appends the query parameters
@@ -34,18 +48,4 @@ export function queryParamsBuilder(options: QueryParamsBuilderOptions): Url {
   } else {
     return url;
   }
-}
-
-function ignoreDefaultQueryParameters(queryParams, defaultQueryParams) {
-  // Remove all values from the queryParams which match the defaultQueryParams
-  return reduce(
-    queryParams,
-    (result, value, key) => {
-      if (value !== defaultQueryParams[key]) {
-        result[key] = value;
-      }
-      return result;
-    },
-    {}
-  );
 }
