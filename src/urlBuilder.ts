@@ -1,15 +1,13 @@
-// @flow
-
-import type { Url } from './models';
+import { Url } from './models';
 import { pathParamsBuilder } from './pathParamsBuilder';
-import { queryParamsBuilder } from './queryParamsBuilder';
+import { queryParamsBuilder, QueryParams } from './queryParamsBuilder';
 
-export type UrlBuilderOptions = {
-  url: Url,
-  pathParams?: Object,
-  queryParams?: Object,
-  defaultQueryParams?: Object
-};
+export interface UrlBuilderOptions {
+  url: Url;
+  pathParams?: QueryParams;
+  queryParams?: QueryParams;
+  defaultQueryParams?: QueryParams;
+}
 
 /**
  * Has two use cases:
@@ -60,15 +58,13 @@ export function urlBuilder(options: UrlBuilderOptions): Url {
     return url;
   }
 
-  const urlPath = pathParams
-    ? pathParamsBuilder({ url, pathParams: pathParams })
-    : url;
+  const urlPath = pathParams ? pathParamsBuilder({ url, pathParams: pathParams }) : url;
 
   if (queryParams && defaultQueryParams) {
     return queryParamsBuilder({
       url: urlPath,
       queryParams,
-      defaultQueryParams
+      defaultQueryParams,
     });
   } else {
     return urlPath;

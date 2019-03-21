@@ -1,5 +1,3 @@
-// @flow
-
 import { urlBuilder } from '../src/urlBuilder';
 
 describe('urlBuilder', () => {
@@ -36,8 +34,6 @@ describe('urlBuilder', () => {
 
     const expected = '/users/891?num=23&search=awesome';
 
-    expect(
-      urlBuilder({ url, pathParams, queryParams, defaultQueryParams })
-    ).toBe(expected);
+    expect(urlBuilder({ url, pathParams, queryParams, defaultQueryParams })).toBe(expected);
   });
 });

@@ -66,9 +66,7 @@ Lets look at some examples:
 The easiest url function is one that simply returns a string:
 
 ```js
-//@flow
-
-import type { Url } from 'mad-react-url';
+import { Url } from 'mad-react-url';
 
 // The simplest way to define a Url function is to return a string.
 export function toUserCreate(): Url {
@@ -88,13 +86,12 @@ this.props.history.push(toUserCreate());
 If the route has path parameters:
 
 ```js
-//@flow
-
-import type { Url } from 'mad-react-url';
-import { urlBuilder } from 'mad-react-url';
+import { Url, urlBuilder } from 'mad-react-url';
 
 // We recommend defining this type in the UserEdit component's file.
-type UserEditPathParams = { id: number };
+interface UserEditPathParams { 
+  id: number;
+}
 
 // This url function takes a path parameter called :id
 export function toUserEdit(pathParams?: UserEditPathParams): Url {
@@ -117,21 +114,21 @@ this.props.history.push(toUserEdit({ id: 42 }));
 If the route has query params:
 
 ```js
-//@flow
-
-import type { Url } from 'mad-react-url';
-import { urlBuilder } from 'mad-react-url';
+import { Url, urlBuilder } from 'mad-react-url';
 
 // We recommend defining this type in the UserList component's file.
-type UserListQueryParams = { page: number, search: string };
+interface UserListQueryParams { 
+  page: number;
+  search: string;
+}
 
 // We recommend defining the default query params in the UserList component's file.
 const defaultUserListQueryParams = { page: 1, search: '' };
 
 // This url function has query params page and search, they are both
-// optional because of $Shape. $Shapes takes an object type definition
+// optional because of Partial. Partial takes an object type definition
 // and makes all keys optional, and does not allow unknown keys.
-export function toUsers(queryParams?: $Shape<UserListQueryParams>): Url {
+export function toUsers(queryParams?: Partial<UserListQueryParams>): Url {
   return urlBuilder({
     url: '/users',
     queryParams,
@@ -170,16 +167,14 @@ which makes all query params available as React props.
 For example:
 
 ```js
-// @flow
-
 import React, { Component } from 'react';
-import type { RouterHistory, Location } from 'react-router-dom';
+import { RouterHistory, Location } from 'react-router-dom';
 import { withQueryParams } from 'mad-react-url';
 
-type UserListQueryParams = {
-  page: number,
-  query: string
-};
+interface UserListQueryParams {
+  page: number;
+  query: string;
+}
 
 // You should freeze the object to prevent manipulation.
 export function defaultUserListQueryParams(): UserListQueryParams {
@@ -189,11 +184,11 @@ export function defaultUserListQueryParams(): UserListQueryParams {
   };
 }
 
-type Props = {
-  history: RouterHistory,
-  location: Location,
-  queryParams: UserListQueryParams
-};
+interface Props {
+  history: RouterHistory;
+  location: Location;
+  queryParams: UserListQueryParams;
+}
 
 type State = {};
 
