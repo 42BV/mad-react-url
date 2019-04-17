@@ -12,23 +12,20 @@ For a [rationale on why and how mad-react-url works click here]({{ "/" | prepend
 ## Dashboard.js
 
 ```js
-// @flow
-
 import React, { Component } from 'react';
-import type { RouterHistory, Location, Match } from 'react-router-dom';
-import type { Url } from 'mad-react-url';
-import { withQueryParams, urlBuilder } from 'mad-react-url';
+import { RouterHistory, Location, Match } from 'react-router-dom';
+import { Url, withQueryParams, urlBuilder } from 'mad-react-url';
 
 import { toDashboard } from './links';
 
-type DashboardPathParams = {
-  id: number
-};
+interface DashboardPathParams {
+  id: number;
+}
 
-type DashboardQueryParams = {
-  page: number,
-  query: string
-};
+interface DashboardQueryParams {
+  page: number;
+  query: string;
+}
 
 export function defaultDashboardQueryParams(): DashboardQueryParams {
   return {
@@ -37,16 +34,16 @@ export function defaultDashboardQueryParams(): DashboardQueryParams {
   };
 }
 
-type Props = {
-  history: RouterHistory,
-  location: Location,
-  queryParams: DashboardQueryParams,
-  match: Match
-};
+interface Props {
+  history: RouterHistory;
+  location: Location;
+  queryParams: DashboardQueryParams;
+  match: Match;
+}
 
-type State = {
-  name: string
-};
+interface State {
+  name: string;
+}
 
 export class Dashboard extends Component<Props, State> {
   state = {
@@ -106,7 +103,7 @@ export default withQueryParams(Dashboard, defaultDashboardQueryParams());
 
 export function toDashboard(
   pathParams?: DashboardPathParams,
-  queryParams?: $Shape<DashboardQueryParams>
+  queryParams?: Partial<DashboardQueryParams>
 ): Url {
   return urlBuilder({
     url: '/dashboard/:id',
@@ -120,10 +117,7 @@ export function toDashboard(
 ## Routes.js
 
 ```js
-// @flow
-
 import React from 'react';
-
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 
 import Dashboard, { toDashboard } from './Dashboard';
