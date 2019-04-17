@@ -1,6 +1,6 @@
 {
   "name": "mad-react-url",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "This library makes it easy to define URL's and type them with flow.",
   "files": [
     "lib"
