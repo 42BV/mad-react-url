@@ -1,4 +1,6 @@
-theme: jekyll-theme-tactile
-title: [mad-react-url]
-description: [This library makes it easy to define URL's and type them with flow.]
-show_downloads: false
+remote_theme: 42bv/fortytwo
+title: 'mad-react-url'
+baseurl: /mad-react-url/
+description: 'Utils for creating URLs for react based applications'
+plugins:
+  - jekyll-remote-theme
