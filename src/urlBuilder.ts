@@ -1,8 +1,8 @@
 import { Url } from './models';
 import { pathParamsBuilder } from './pathParamsBuilder';
-import { queryParamsBuilder, QueryParams } from './queryParamsBuilder';
+import { queryParamsBuilder } from './queryParamsBuilder';
 
-export interface UrlBuilderOptions {
+export interface UrlBuilderOptions<QueryParams> {
   url: Url;
   pathParams?: QueryParams;
   queryParams?: QueryParams;
@@ -50,7 +50,7 @@ export interface UrlBuilderOptions {
  * @param {Object} options.queryParams
  * @param {Object} options.defaultQueryParams
  */
-export function urlBuilder(options: UrlBuilderOptions): Url {
+export function urlBuilder<QueryParams>(options: UrlBuilderOptions<QueryParams>): Url {
   const { url, pathParams, queryParams, defaultQueryParams } = options;
 
   // If we have no pathParams and queryParams return the abstract url.

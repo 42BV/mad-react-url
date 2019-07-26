@@ -6,35 +6,35 @@ parent: Rationale
 nav_order: 1
 ---
 
-`mad-react-url` fixes the `string based route` problem, via one simple 
-abstraction: URL functions. URL functions are functions which return URL's. 
-Optionally these URL functions take query parameter's and path parameters
+`@42.nl/react-url` fixes the `string based route` problem, via one simple 
+abstraction: Url functions. Url functions are functions which return Url's. 
+Optionally these Url functions take query parameter's and path parameters
 as arguments.
 
 A function is a url function if it matches the following criteria:
 
-1. The function has a return type of URL.
-2. If the URL has query parameters, they are a parameter to the url function.
-3. If the URL has path parameter, they are parameters to the url function.
-4. If the URL function is called without parameters it returns the meta url.
+1. The function has a return type of Url.
+2. If the Url has query parameters, they are a parameter to the url function.
+3. If the Url has path parameter, they are parameters to the url function.
+4. If the url function is called without parameters it returns the meta url.
 
 A meta url is simply the url without filled in placeholders. Take
-this meta URL for example: `users/:id/edit`. In this url the `:id`
+this meta url for example: `users/:id/edit`. In this url the `:id`
 should be replaced with some `id` for example: `users/42/edit`. By
-calling the URL function without a provided id it should return 
-`users/:id/edit`. Which is exactly what react-router needs.
+calling the url function without a provided id it should return 
+`users/:id/edit`. Which is what exactly what react-router needs.
 
 So the url function has two features:
 
   1. It knows how to supply a route definition to react-router.
-  2. It knows how to build a url to navigate to.
+  2. It know how to build a url to navigate to.
 
 Lets look at some examples:
 
 The easiest url function is one that simply returns a string:
 
 ```js
-import { Url } from 'mad-react-url';
+import { Url } from '@42.nl/react-url';
 
 // The simplest way to define a Url function is to return a string.
 export function toUserCreate(): Url {
@@ -54,7 +54,7 @@ this.props.history.push(toUserCreate());
 If the route has path parameters:
 
 ```js
-import { Url, urlBuilder } from 'mad-react-url';
+import { Url, urlBuilder } from '@42.nl/react-url';
 
 // We recommend defining this type in the UserEdit component's file.
 interface UserEditPathParams { 
@@ -82,7 +82,7 @@ this.props.history.push(toUserEdit({ id: 42 }));
 If the route has query params:
 
 ```js
-import { Url, urlBuilder } from 'mad-react-url';
+import { Url, urlBuilder } from '@42.nl/react-url';
 
 // We recommend defining this type in the UserList component's file.
 interface UserListQueryParams { 

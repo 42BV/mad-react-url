@@ -6,8 +6,8 @@ parent: Rationale
 nav_order: 2
 ---
 
-`mad-react-url` fixes the `query params are strings` problem, via one simple 
-abstraction: withQueryParams. withQueryParams is a higher order function
+`@42.nl/react-url` fixes the `query params are strings` problem, via one simple 
+abstraction: useQueryParams. useQueryParams is a higher order function
 which makes all query params available as React props.
 
 For example:
@@ -15,7 +15,7 @@ For example:
 ```js
 import React, { Component } from 'react';
 import { RouterHistory, Location } from 'react-router-dom';
-import { withQueryParams } from 'mad-react-url';
+import { useQueryParams } from '@42.nl/react-url';
 
 interface UserListQueryParams {
   page: number;
@@ -36,30 +36,33 @@ interface Props {
   queryParams: UserListQueryParams;
 }
 
-type State = {};
+export function UserList(props: Props)
+  const {history, location} = props;
 
-export class UserList extends Component<Props, State> {
-  
+  const queryParams = useQueryParams({
+    location,
+    defaultQueryParams: defaultUserListQueryParams(),
+    debugName: 'UserList'
+  });
+
   // If a query param needs to change simply route to it!
-  queryChanged(query: string) {
-    this.props.history.push(toUsers({ query }))
+  function queryChanged(query: string) {
+    history.push(toUsers({ query }))
   }
 
-  render() {
-    // Grab the query params from the props.
-    const { page, query } = this.props.queryParams;
+  // Grab the query params from the props.
+  const { page, query } = queryParams;
 
-    /* 
-      Because we have defined default query parameters, page and
-      query will always have values, so no undefined checking is
-      required.
-    */
+  /* 
+    Because we have defined default query parameters, page and
+    query will always have values, so no undefined checking is
+    required.
+  */
 
-    // Use the query params in the render.
-  }
+  // Use the query params in the render.
 }
  
-export default withQueryParams(UserList, defaultUserListQueryParams());
+export default 
 ```
 
 Now you can render it in a route, and the query params will be
@@ -69,9 +72,9 @@ available in the props:
  <Route exact path={toUsers()} component={UserList} />
 ```
 
-Query params by default are strings, `mad-react-url` tries to convert
+Query params by default are strings, `@42.nl/react-url` tries to convert
 them to more concrete types. It does does based on the default query
-params you give to `withQueryParams`. It does the following 
+params you give to `useQueryParams`. It does the following 
 transformations:
 
 1. If the default query param is a boolean it converts to boolean.
@@ -86,4 +89,3 @@ It does not transform values when:
 
 1. The default query param is a string.
 2. The default query param is an empty array.
-

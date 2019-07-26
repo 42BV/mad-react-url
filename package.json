@@ -1,10 +1,11 @@
 {
-  "name": "mad-react-url",
-  "version": "2.0.0",
+  "name": "@42.nl/react-url",
+  "version": "2.2.0",
   "description": "This library makes it easy to define URL's and type them with flow.",
   "files": [
     "lib"
   ],
+  "private": false,
   "main": "lib/index.js",
   "repository": {
     "type": "git",
@@ -24,24 +25,22 @@
   "homepage": "https://github.com/42BV/mad-react-url#readme",
   "dependencies": {
     "lodash.reduce": "4.6.0",
-    "query-string": "6.4.0",
-    "recompose": "0.30.0"
+    "query-string": "6.8.1",
+    "react-display-name": "0.2.4"
   },
   "peerDependencies": {
-    "react": "^16.8.3",
-    "react-router-dom": "^4.3.1"
+    "react": "^16.8.3"
   },
   "devDependencies": {
     "@types/enzyme": "3.9.1",
     "@types/enzyme-adapter-react-16": "1.0.5",
     "@types/jest": "24.0.9",
-    "@types/lodash.reduce": "^4.6.6",
+    "@types/lodash.reduce": "4.6.6",
     "@types/react": "16.8.8",
     "@types/react-dom": "16.8.2",
-    "@types/react-router-dom": "4.3.1",
-    "@types/recompose": "0.30.5",
     "@typescript-eslint/eslint-plugin": "1.4.2",
     "@typescript-eslint/parser": "1.4.2",
+    "@testing-library/react-hooks": "1.1.0",
     "enzyme": "3.9.0",
     "enzyme-adapter-react-16": "1.11.2",
     "enzyme-to-json": "3.3.1",
@@ -49,7 +48,7 @@
     "eslint-config-prettier": "4.1.0",
     "eslint-plugin-prettier": "3.0.1",
     "eslint-plugin-react": "7.12.4",
-    "jest": "24.1.0",
+    "jest": "24.8.0",
     "prettier": "1.16.4",
     "react": "16.8.3",
     "react-dom": "16.8.3",
@@ -62,7 +61,7 @@
     "coverage": "npm test -- --coverage",
     "ts": "tsc --version && tsc",
     "lint": "eslint \"src/**\"",
-    "prepublish": "rm -rf lib && npm run lint && npm test && npm run ts"
+    "prepublish": "rm -rf lib && npm run lint && npm run ts && npm test"
   },
   "jest": {
     "globals": {

@@ -11,8 +11,11 @@ This library makes it easy to define URLs and type them with TypeScript. If you 
 
 ### With npm
 
-`npm install mad-react-url --save`
+`npm install @42.nl/react-url --save`
 
 ### With Yarn
 
-`yarn add mad-react-url`
+`yarn add @42.nl/react-url`
+# Example
+
+If you just want to see a complete [example in code go here]({{ "/example" | prepend: site.baseurl }}).
