@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.2.0] - 2019-07-29
+- Removed QueryParams as a model now expecting the user to provide
+  them via generics instead.
+
+## [2.1.0] - 2019-07-16
+- Changed package name to '42.nl/react-url'
+- Added useQueryParams hook
+
+## [2.0.0] - 2019-04-17
+- Converted project to TypeScript
+
 ## [1.0.0] - 2018-07-23
 This release contains breaking changes, to migrate do the following:
 

@@ -1,21 +1,22 @@
+// @ts-ignore
 import { stringify } from 'query-string';
 import reduce from 'lodash.reduce';
 
 import { Url } from './models';
 
-export type QueryParams = Record<string, any>;
-
-export interface QueryParamsBuilderOptions {
+export interface QueryParamsBuilderOptions<QueryParams> {
   url: Url;
   queryParams: QueryParams;
   defaultQueryParams: QueryParams;
 }
 
-function ignoreDefaultQueryParameters(queryParams: QueryParams, defaultQueryParams: QueryParams): object {
+function ignoreDefaultQueryParameters<QueryParams>(queryParams: QueryParams, defaultQueryParams: QueryParams): QueryParams {
   // Remove all values from the queryParams which match the defaultQueryParams
   return reduce(
+    // @ts-ignore
     queryParams,
     (result: Record<string, string>, value: string, key: string) => {
+      // @ts-ignore
       if (value !== defaultQueryParams[key]) {
         result[key] = value;
       }
@@ -37,7 +38,7 @@ function ignoreDefaultQueryParameters(queryParams: QueryParams, defaultQueryPara
  * @param {Object} options.queryParams The query params as an object.
  * @param {Object} options.defaultQueryParams The default query parameters.
  */
-export function queryParamsBuilder(options: QueryParamsBuilderOptions): Url {
+export function queryParamsBuilder<QueryParams>(options: QueryParamsBuilderOptions<QueryParams>): Url {
   const { url, queryParams, defaultQueryParams } = options;
 
   const params = ignoreDefaultQueryParameters(queryParams, defaultQueryParams);

@@ -7,7 +7,7 @@ This library makes it easy to define URL's and type them with flow.
 
 # Installation
 
-`npm install mad-react-url --save`
+`npm install @42.nl/react-url --save`
 
 # Documentation
 

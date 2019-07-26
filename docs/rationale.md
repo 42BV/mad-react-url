@@ -27,7 +27,3 @@ a `search` string for example: `"?query=somestring&page=1"`. This
 is not very friendly and typesafe to work with.
 
 Solution: [query params.]({{ "query-params" | prepend: site.baseurl }})
-
-
-
-
