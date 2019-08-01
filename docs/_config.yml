@@ -1,6 +1,6 @@
 remote_theme: 42bv/fortytwo
 title: '@42/react-url'
-baseurl: /react-url/
+baseurl: /mad-react-url/
 description: 'Utils for creating URLs for react based applications'
 plugins:
   - jekyll-remote-theme
