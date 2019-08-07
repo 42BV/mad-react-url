@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.2.1] - 2019-08-07
+- Bugfix the type of the pathParams was incorrectly set to QueryParam
+  in the urlBuilder. Now has its own generic called PathParam.
+
 ## [2.2.0] - 2019-07-29
 - Removed QueryParams as a model now expecting the user to provide
   them via generics instead.
