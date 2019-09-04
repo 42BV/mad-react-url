@@ -14,7 +14,7 @@ describe('useQueryParams', () => {
         defaultQueryParams: { query: 'default' },
       },
     });
-    
+
     // Test that the first result will be 'hallo'
     const initialResult = result.current;
     expect(initialResult).toEqual({ query: 'hallo' });
