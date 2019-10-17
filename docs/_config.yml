@@ -4,3 +4,7 @@ baseurl: /mad-react-url/
 description: 'Utils for creating URLs for react based applications'
 plugins:
   - jekyll-remote-theme
+links:
+  - name: 'View on Github'
+    icon: 'https://unpkg.com/simple-icons@latest/icons/github.svg'
+    href: 'https://github.com/42BV/mad-react-url'
