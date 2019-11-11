@@ -1,4 +1,6 @@
-import { parse } from 'querystring';
+// Make sure you use `query-string` and not `querystring` which is
+// a Node.js library.
+import { parse } from 'query-string';
 
 /**
  * A function which augments the props with the queryParams from the
@@ -18,8 +20,8 @@ export function queryParamsFromLocation<QueryParams>(
   debugName: string,
 ): QueryParams {
   const currentQueryParams = location.search ? queryParamsFromSearch(location.search) : {};
-  const mergedQueryParamsAsString = { ...defaultQueryParams, ...currentQueryParams };
-  return convertQueryParamsToConcreteType(mergedQueryParamsAsString, defaultQueryParams, debugName);
+  const mergedQueryParams = { ...defaultQueryParams, ...currentQueryParams };
+  return convertQueryParamsToConcreteType(mergedQueryParams, defaultQueryParams, debugName);
 }
 
 function queryParamsFromSearch(search: string): object {
@@ -46,7 +48,7 @@ function queryParamsFromSearch(search: string): object {
  * @param {Object} queryParams
  * @param {Object} defaultQueryParams
  */
-export function convertQueryParamsToConcreteType<QueryParams>(
+function convertQueryParamsToConcreteType<QueryParams>(
   queryParams: QueryParams,
   defaultQueryParams: QueryParams,
   debugName: string,
@@ -63,6 +65,12 @@ export function convertQueryParamsToConcreteType<QueryParams>(
 
     // @ts-ignore
     const actualValue = queryParams[key];
+
+    // If we got a default value we do nothing.
+    if (actualValue === defaultValue) {
+      typedQueryParams[key] = actualValue;
+      return;
+    }
 
     /*
       The `queryParams` are the result of calling `parse` from the
@@ -96,7 +104,7 @@ export function convertQueryParamsToConcreteType<QueryParams>(
 
       // Convert to an array if we got a singular value. Because
       // we always want to return an array.
-      const actualArray = Array.isArray(actualValue) ? actualValue : [actualValue];
+      const actualArray: string[] = Array.isArray(actualValue) ? actualValue : [actualValue];
 
       if (first === undefined) {
         typedQueryParams[key] = actualArray;
