@@ -64,23 +64,54 @@ export function convertQueryParamsToConcreteType<QueryParams>(
     // @ts-ignore
     const actualValue = queryParams[key];
 
-    if (actualValue instanceof Array) {
+    /*
+      The `queryParams` are the result of calling `parse` from the
+      `query-string` library. When it sees a key multiple times it
+      transforms it into an array, for example:
+
+      `parse('?filters=GREEN&filters=RED')`
+
+      Becomes:
+
+      `{ filters: ['GREEN', 'RED'] }`
+
+      However there is one gotcha: it will only transform to an array
+      when it encounters mulptile values for the same key, so this:
+
+      `parse('?filters=ALL')`
+
+      Becomes:
+
+      `{ filters: 'ALL' }`
+
+      We do not want this, we always want to return an array, when the
+      `defaultValue` is an array. So that is why we check if the 
+      `defaultValue` is an array.
+
+      If the `defaultValue` is an array, it will make sure that the
+      `actualValue` is parsed and becomes an array of that type.
+    */
+    if (defaultValue instanceof Array) {
       const first = defaultValue[0];
 
+      // Convert to an array if we got a singular value. Because
+      // we always want to return an array.
+      const actualArray = Array.isArray(actualValue) ? actualValue : [actualValue];
+
       if (first === undefined) {
-        typedQueryParams[key] = actualValue;
+        typedQueryParams[key] = actualArray;
       } else {
         switch (typeof first) {
           case 'number':
-            typedQueryParams[key] = actualValue.map(s => parseFloat(s));
+            typedQueryParams[key] = actualArray.map((s: any) => parseFloat(s));
             break;
 
           case 'boolean':
-            typedQueryParams[key] = actualValue.map(stringToBoolean);
+            typedQueryParams[key] = actualArray.map(stringToBoolean);
             break;
 
           default:
-            typedQueryParams[key] = actualValue;
+            typedQueryParams[key] = actualArray;
             break;
         }
       }

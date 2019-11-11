@@ -1,6 +1,5 @@
 import { queryParamsFromLocation, convertQueryParamsToConcreteType } from '../src/queryparams';
 
-
 describe('queryParamsFromLocation', () => {
   it('should know how to convert strings that start with a question mark', () => {
     const location = { search: '?query=hallo' };
@@ -93,6 +92,27 @@ describe('convertQueryParamsToConcreteType', () => {
       );
       expect(queryParams).toEqual({ sizes: ['medium', 'large', 'small'] });
     });
+
+    describe('when encountering a singular value', () => {
+      it('should convert to an array of strings when a singular string is given', () => {
+        const queryParams = convertQueryParamsToConcreteType({ sizes: 'large' }, { sizes: ['small'] }, 'AppComponent');
+        expect(queryParams).toEqual({ sizes: ['large'] });
+      });
+
+      it('should convert to an array of numbers when a singular number is given', () => {
+        const queryParams = convertQueryParamsToConcreteType({ numbers: '1' }, { numbers: [42] }, 'AppComponent');
+        expect(queryParams).toEqual({ numbers: [1] });
+      });
+
+      it('should convert to an array of booleans when a singular boolean is given', () => {
+        const queryParams = convertQueryParamsToConcreteType({ visible: 'true' }, { visible: [false] }, 'AppComponent');
+        expect(queryParams).toEqual({ visible: [true] });
+      });
+
+      it('should convert to an array of the singular value when an empty default is given', () => {
+        const queryParams = convertQueryParamsToConcreteType({ sizes: 'medium' }, { sizes: [] }, 'AppComponent');
+        expect(queryParams).toEqual({ sizes: ['medium'] });
+      });
+    });
   });
 });
-
