@@ -32,7 +32,7 @@ export function pathParamsBuilder(options: PathParamsBuilderOptions): Url {
     .map(part => processPart(part, pathParams))
     .join('/');
 
-  return stripEndingSlash(replacedUrl);
+  return stripEndingSlashes(replacedUrl);
 }
 
 // Take a part of the path and process it, when it is a path param
@@ -72,12 +72,6 @@ function pathParamToKey(pathParam: string): string {
   return pathParam.substring(1, end);
 }
 
-function stripEndingSlash(url: string): string {
-  const end = url.length - 1;
-
-  if (url[end] !== '/') {
-    return url;
-  }
-
-  return url.substring(0, end);
+function stripEndingSlashes(url: string): string {
+  return url.replace(/\/+$/, '');
 }
