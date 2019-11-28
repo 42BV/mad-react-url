@@ -37,6 +37,15 @@ describe('test pathParamsBuilder', () => {
     expect(generatedUrl).toBe('/users');
   });
 
+  test('with multiple optional path params missing at the end', () => {
+    const generatedUrl = pathParamsBuilder({
+      url: '/users/:id?/:action?/:subaction?',
+      pathParams: {},
+    });
+
+    expect(generatedUrl).toBe('/users');
+  });
+
   test('with some missing/extra params', () => {
     const generatedUrl = pathParamsBuilder({
       url: '/users/:id/edit/:idd/employee',
