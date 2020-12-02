@@ -2,12 +2,12 @@ import { Url } from './models';
 import { pathParamsBuilder } from './pathParamsBuilder';
 import { queryParamsBuilder } from './queryParamsBuilder';
 
-export interface UrlBuilderOptions<PathParams, QueryParams> {
+export type UrlBuilderOptions<PathParams, QueryParams> = {
   url: Url;
   pathParams?: PathParams;
   queryParams?: QueryParams;
   defaultQueryParams?: QueryParams;
-}
+};
 
 /**
  * Has two use cases:
@@ -50,7 +50,9 @@ export interface UrlBuilderOptions<PathParams, QueryParams> {
  * @param {Object} options.queryParams
  * @param {Object} options.defaultQueryParams
  */
-export function urlBuilder<PathParams, QueryParams>(options: UrlBuilderOptions<PathParams, QueryParams>): Url {
+export function urlBuilder<PathParams, QueryParams>(
+  options: UrlBuilderOptions<PathParams, QueryParams>
+): Url {
   const { url, pathParams, queryParams, defaultQueryParams } = options;
 
   // If we have no pathParams and queryParams return the abstract url.
@@ -58,13 +60,14 @@ export function urlBuilder<PathParams, QueryParams>(options: UrlBuilderOptions<P
     return url;
   }
 
-  const urlPath = pathParams ? pathParamsBuilder({ url, pathParams: pathParams }) : url;
+  // @ts-expect-error The pathParams is really an object.
+  const urlPath = pathParams ? pathParamsBuilder({ url, pathParams }) : url;
 
   if (queryParams && defaultQueryParams) {
     return queryParamsBuilder({
       url: urlPath,
       queryParams,
-      defaultQueryParams,
+      defaultQueryParams
     });
   } else {
     return urlPath;

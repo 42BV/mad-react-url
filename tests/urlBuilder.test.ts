@@ -35,21 +35,23 @@ describe('urlBuilder', () => {
 
     const expected = '/users/891?num=23&search=awesome';
 
-    expect(urlBuilder({ url, pathParams, queryParams, defaultQueryParams })).toBe(expected);
+    expect(
+      urlBuilder({ url, pathParams, queryParams, defaultQueryParams })
+    ).toBe(expected);
   });
 
   test('scenario which testes the typescript types', () => {
     // We are testing the typescript types here so a failure means
-    // typscript will complain about the following code.
+    // TypeScript will complain about the following code.
 
-    interface DashboardPathParams {
+    type DashboardPathParams = {
       id: number;
-    }
-    
-    interface DashboardQueryParams {
+    };
+
+    type DashboardQueryParams = {
       page: number;
       query: string;
-    }
+    };
 
     function defaultDashboardQueryParams(): DashboardQueryParams {
       return {
@@ -72,6 +74,8 @@ describe('urlBuilder', () => {
 
     expect(toDashboard()).toBe('/dashboard/:id');
     expect(toDashboard({ id: 42 })).toBe('/dashboard/42');
-    expect(toDashboard({ id: 42 }, { page: 1337})).toBe('/dashboard/42?page=1337');
-  })
+    expect(toDashboard({ id: 42 }, { page: 1337 })).toBe(
+      '/dashboard/42?page=1337'
+    );
+  });
 });

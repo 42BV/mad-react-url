@@ -3,15 +3,14 @@ import { shallow } from 'enzyme';
 
 import { withQueryParams, WithQueryProps } from '../src/withQueryParams';
 
-interface QueryParams {
+type QueryParams = {
   query: string;
-}
+};
 
-
-interface Props {
+type Props = {
   location: { search: string };
   name: string;
-}
+};
 
 describe('Test withQueryParams HOC', () => {
   let Welcome: React.ComponentClass<Props & WithQueryProps<QueryParams>>;

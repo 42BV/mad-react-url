@@ -4,7 +4,7 @@ describe('test pathParamsBuilder', () => {
   test('with path params', () => {
     const generatedUrl = pathParamsBuilder({
       url: '/users/:id/edit',
-      pathParams: { id: 1 },
+      pathParams: { id: 1 }
     });
 
     expect(generatedUrl).toBe('/users/1/edit');
@@ -13,7 +13,7 @@ describe('test pathParamsBuilder', () => {
   test('with path param at the end', () => {
     const generatedUrl = pathParamsBuilder({
       url: '/users/:id',
-      pathParams: { id: 89 },
+      pathParams: { id: 89 }
     });
 
     expect(generatedUrl).toBe('/users/89');
@@ -22,7 +22,7 @@ describe('test pathParamsBuilder', () => {
   test('with optional path param at the end', () => {
     const generatedUrl = pathParamsBuilder({
       url: '/users/:id?',
-      pathParams: { id: 89 },
+      pathParams: { id: 89 }
     });
 
     expect(generatedUrl).toBe('/users/89');
@@ -31,7 +31,7 @@ describe('test pathParamsBuilder', () => {
   test('with optional path param missing at the end', () => {
     const generatedUrl = pathParamsBuilder({
       url: '/users/:id?',
-      pathParams: {},
+      pathParams: {}
     });
 
     expect(generatedUrl).toBe('/users');
@@ -40,7 +40,7 @@ describe('test pathParamsBuilder', () => {
   test('with multiple optional path params missing at the end', () => {
     const generatedUrl = pathParamsBuilder({
       url: '/users/:id?/:action?/:subaction?',
-      pathParams: {},
+      pathParams: {}
     });
 
     expect(generatedUrl).toBe('/users');
@@ -52,8 +52,8 @@ describe('test pathParamsBuilder', () => {
       pathParams: {
         idd: 3,
         awesome: 'hello',
-        do: 'nothing',
-      },
+        do: 'nothing'
+      }
     });
 
     expect(generatedUrl).toBe('/users/:id/edit/3/employee');
@@ -66,8 +66,8 @@ describe('test pathParamsBuilder', () => {
         id: 42,
         idd: 3,
         awesome: 'hello',
-        do: 'nothing',
-      },
+        do: 'nothing'
+      }
     });
 
     expect(generatedUrl).toBe('/users/42/edit/3/employee');
@@ -76,7 +76,7 @@ describe('test pathParamsBuilder', () => {
   test('with all path params missing including optional and required', () => {
     const generatedUrl = pathParamsBuilder({
       url: '/users/:id?/edit/:idd/employee',
-      pathParams: {},
+      pathParams: {}
     });
 
     expect(generatedUrl).toBe('/users//edit/:idd/employee');

@@ -3,10 +3,10 @@ import getDisplayName from 'react-display-name';
 
 import { queryParamsFromLocation } from './queryparams';
 
-export interface WithQueryProps<QueryParams> {
+export type WithQueryProps<QueryParams> = {
   location: { search?: string };
   queryParams?: QueryParams;
-}
+};
 
 /**
  * A HoC which augments the props with the queryParams from the
@@ -35,24 +35,31 @@ export interface WithQueryProps<QueryParams> {
  * @param {String} options.url The url to be parsed
  * @param {Object} options.pathParams Consists of the matching key in the url to be replaced by the value.
  */
-export const withQueryParams = <P extends object, QueryParams>(
+export const withQueryParams = <P extends Record<string, unknown>, QueryParams>(
   Component: React.ComponentType<P>,
-  defaultQueryParams: QueryParams,
+  defaultQueryParams: QueryParams
 ): React.ComponentClass<P & WithQueryProps<QueryParams>> => {
-  class WithQueryParams extends React.Component<P & WithQueryProps<QueryParams>> {
+  class WithQueryParams extends React.Component<
+    P & WithQueryProps<QueryParams>
+  > {
     public render(): ReactNode {
       const { location, ...props } = this.props;
 
-      // @ts-ignore
+      // @ts-expect-error accept that there might be a displayName;
       const debug = WithQueryParams.displayName;
 
-      const typedQueryParams = queryParamsFromLocation(location, defaultQueryParams, debug);
+      const typedQueryParams = queryParamsFromLocation(
+        location,
+        defaultQueryParams,
+        debug
+      );
 
-      return <Component queryParams={typedQueryParams} {...props as P} />;
+      return <Component queryParams={typedQueryParams} {...(props as P)} />;
     }
   }
 
-  (WithQueryParams as any).displayName = `WithQueryParams(${getDisplayName(Component)})`;
+  // @ts-expect-error accept that there might be a displayName;
+  WithQueryParams.displayName = `WithQueryParams(${getDisplayName(Component)})`;
 
   return WithQueryParams;
 };

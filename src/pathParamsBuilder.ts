@@ -1,9 +1,9 @@
 import { Url } from './models';
 
-export interface PathParamsBuilderOptions {
+export type PathParamsBuilderOptions = {
   url: Url;
-  pathParams: Record<string, any>;
-}
+  pathParams: Record<string, unknown>;
+};
 
 /**
  * Replaces all the matching keys in the path params in the url with the
@@ -29,7 +29,7 @@ export function pathParamsBuilder(options: PathParamsBuilderOptions): Url {
   // Convert '/users/:id/:tab?' to ["", "users", ":id", ":tab?"]
   const replacedUrl = url
     .split('/')
-    .map(part => processPart(part, pathParams))
+    .map((part) => processPart(part, pathParams))
     .join('/');
 
   return stripEndingSlashes(replacedUrl);
@@ -37,7 +37,10 @@ export function pathParamsBuilder(options: PathParamsBuilderOptions): Url {
 
 // Take a part of the path and process it, when it is a path param
 // replace it with its value, otherwise leave it alone.
-function processPart(part: string, pathParams: Record<string, any>): string {
+function processPart(
+  part: string,
+  pathParams: Record<string, unknown>
+): unknown {
   if (!isPathParam(part)) {
     return part;
   }
@@ -67,7 +70,10 @@ function isOptionalPathParam(pathParam: string): boolean {
 // Transform: ':id?' to 'id'
 function pathParamToKey(pathParam: string): string {
   // Either stop at the ? or stop at the end of the pathParam
-  const end = pathParam[pathParam.length - 1] === '?' ? pathParam.length - 1 : pathParam.length;
+  const end =
+    pathParam[pathParam.length - 1] === '?'
+      ? pathParam.length - 1
+      : pathParam.length;
 
   return pathParam.substring(1, end);
 }

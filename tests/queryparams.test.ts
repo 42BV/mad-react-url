@@ -4,13 +4,17 @@ describe('queryParamsFromLocation', () => {
   it('should know how to convert strings that start with a question mark', () => {
     const location = { search: '?query=hallo' };
 
-    expect(queryParamsFromLocation(location, { query: 'default' }, 'debug')).toEqual({ query: 'hallo' });
+    expect(
+      queryParamsFromLocation(location, { query: 'default' }, 'debug')
+    ).toEqual({ query: 'hallo' });
   });
 
   it('should know how to convert strings that start without a question mark', () => {
     const location = { search: 'query=hallo' };
 
-    expect(queryParamsFromLocation(location, { query: 'default' }, 'debug')).toEqual({ query: 'hallo' });
+    expect(
+      queryParamsFromLocation(location, { query: 'default' }, 'debug')
+    ).toEqual({ query: 'hallo' });
   });
 
   it('should fallback to default query parameters when params are misssing', () => {
@@ -24,10 +28,14 @@ describe('queryParamsFromLocation', () => {
       strings: ['small', 'large'],
       falseBoolean: false,
       trueBoolean: true,
-      booleans: [false, true, false],
+      booleans: [false, true, false]
     };
 
-    const queryParams = queryParamsFromLocation(location, defaultQueryParams, 'AppComponent');
+    const queryParams = queryParamsFromLocation(
+      location,
+      defaultQueryParams,
+      'AppComponent'
+    );
     expect(queryParams).toEqual({
       number: 42,
       numbers: [1, 2, 3],
@@ -37,7 +45,7 @@ describe('queryParamsFromLocation', () => {
       strings: ['small', 'large'],
       falseBoolean: false,
       trueBoolean: true,
-      booleans: [false, true, false],
+      booleans: [false, true, false]
     });
 
     // Check reference equality of arrays, that they are actually the
@@ -55,12 +63,16 @@ describe('queryParamsFromLocation', () => {
       const location = { search: '?color=red' };
       const defaultQueryParams = {};
 
-      const queryParams = queryParamsFromLocation(location, defaultQueryParams, 'AppComponent');
+      const queryParams = queryParamsFromLocation(
+        location,
+        defaultQueryParams,
+        'AppComponent'
+      );
       expect(queryParams).toEqual({ color: 'red' });
 
       expect(console.warn).toHaveBeenCalledTimes(1);
       expect(console.warn).toHaveBeenCalledWith(
-        `@42.nl/react-url: no default query param defined for "color" for: "AppComponent".`,
+        `@42.nl/react-url: no default query param defined for "color" for: "AppComponent".`
       );
     });
 
@@ -68,7 +80,11 @@ describe('queryParamsFromLocation', () => {
       const location = { search: '?color=red' };
       const defaultQueryParams = { color: 'blue' };
 
-      const queryParams = queryParamsFromLocation(location, defaultQueryParams, 'AppComponent');
+      const queryParams = queryParamsFromLocation(
+        location,
+        defaultQueryParams,
+        'AppComponent'
+      );
       expect(queryParams).toEqual({ color: 'red' });
     });
 
@@ -77,7 +93,11 @@ describe('queryParamsFromLocation', () => {
         const location = { search: '?id=42' };
         const defaultQueryParams = { id: 1 };
 
-        const queryParams = queryParamsFromLocation(location, defaultQueryParams, 'AppComponent');
+        const queryParams = queryParamsFromLocation(
+          location,
+          defaultQueryParams,
+          'AppComponent'
+        );
         expect(queryParams).toEqual({ id: 42 });
       });
 
@@ -85,7 +105,11 @@ describe('queryParamsFromLocation', () => {
         const location = { search: '?id=1.12' };
         const defaultQueryParams = { id: 33.3 };
 
-        const queryParams = queryParamsFromLocation(location, defaultQueryParams, 'AppComponent');
+        const queryParams = queryParamsFromLocation(
+          location,
+          defaultQueryParams,
+          'AppComponent'
+        );
         expect(queryParams).toEqual({ id: 1.12 });
       });
     });
@@ -95,7 +119,11 @@ describe('queryParamsFromLocation', () => {
         const location = { search: '?visible=false' };
         const defaultQueryParams = { visible: true };
 
-        const queryParams = queryParamsFromLocation(location, defaultQueryParams, 'AppComponent');
+        const queryParams = queryParamsFromLocation(
+          location,
+          defaultQueryParams,
+          'AppComponent'
+        );
         expect(queryParams).toEqual({ visible: false });
       });
 
@@ -103,7 +131,11 @@ describe('queryParamsFromLocation', () => {
         const location = { search: '?visible=false' };
         const defaultQueryParams = { visible: true };
 
-        const queryParams = queryParamsFromLocation(location, defaultQueryParams, 'AppComponent');
+        const queryParams = queryParamsFromLocation(
+          location,
+          defaultQueryParams,
+          'AppComponent'
+        );
         expect(queryParams).toEqual({ visible: false });
       });
     });
@@ -113,7 +145,11 @@ describe('queryParamsFromLocation', () => {
         const location = { search: '?sizes=medium&sizes=large&sizes=small' };
         const defaultQueryParams = { sizes: ['small'] };
 
-        const queryParams = queryParamsFromLocation(location, defaultQueryParams, 'AppComponent');
+        const queryParams = queryParamsFromLocation(
+          location,
+          defaultQueryParams,
+          'AppComponent'
+        );
         expect(queryParams).toEqual({ sizes: ['medium', 'large', 'small'] });
       });
 
@@ -121,15 +157,25 @@ describe('queryParamsFromLocation', () => {
         const location = { search: '?numbers=1&numbers=2&numbers=3' };
         const defaultQueryParams = { numbers: [42] };
 
-        const queryParams = queryParamsFromLocation(location, defaultQueryParams, 'AppComponent');
+        const queryParams = queryParamsFromLocation(
+          location,
+          defaultQueryParams,
+          'AppComponent'
+        );
         expect(queryParams).toEqual({ numbers: [1, 2, 3] });
       });
 
       it('should know how to tranform arrays of booleans', () => {
-        const location = { search: '?visible=true&visible=false&visible=false' };
+        const location = {
+          search: '?visible=true&visible=false&visible=false'
+        };
         const defaultQueryParams = { visible: [true] };
 
-        const queryParams = queryParamsFromLocation(location, defaultQueryParams, 'AppComponent');
+        const queryParams = queryParamsFromLocation(
+          location,
+          defaultQueryParams,
+          'AppComponent'
+        );
         expect(queryParams).toEqual({ visible: [true, false, false] });
       });
 
@@ -137,7 +183,11 @@ describe('queryParamsFromLocation', () => {
         const location = { search: '?sizes=medium&sizes=large&sizes=small' };
         const defaultQueryParams = { sizes: [] };
 
-        const queryParams = queryParamsFromLocation(location, defaultQueryParams, 'AppComponent');
+        const queryParams = queryParamsFromLocation(
+          location,
+          defaultQueryParams,
+          'AppComponent'
+        );
         expect(queryParams).toEqual({ sizes: ['medium', 'large', 'small'] });
       });
 
@@ -146,7 +196,11 @@ describe('queryParamsFromLocation', () => {
           const location = { search: '?sizes=large' };
           const defaultQueryParams = { sizes: ['small'] };
 
-          const queryParams = queryParamsFromLocation(location, defaultQueryParams, 'AppComponent');
+          const queryParams = queryParamsFromLocation(
+            location,
+            defaultQueryParams,
+            'AppComponent'
+          );
           expect(queryParams).toEqual({ sizes: ['large'] });
         });
 
@@ -154,7 +208,11 @@ describe('queryParamsFromLocation', () => {
           const location = { search: '?numbers=1' };
           const defaultQueryParams = { numbers: [42] };
 
-          const queryParams = queryParamsFromLocation(location, defaultQueryParams, 'AppComponent');
+          const queryParams = queryParamsFromLocation(
+            location,
+            defaultQueryParams,
+            'AppComponent'
+          );
           expect(queryParams).toEqual({ numbers: [1] });
         });
 
@@ -162,7 +220,11 @@ describe('queryParamsFromLocation', () => {
           const location = { search: '?visible=true' };
           const defaultQueryParams = { visible: [false] };
 
-          const queryParams = queryParamsFromLocation(location, defaultQueryParams, 'AppComponent');
+          const queryParams = queryParamsFromLocation(
+            location,
+            defaultQueryParams,
+            'AppComponent'
+          );
           expect(queryParams).toEqual({ visible: [true] });
         });
 
@@ -170,7 +232,11 @@ describe('queryParamsFromLocation', () => {
           const location = { search: '?sizes=medium' };
           const defaultQueryParams = { sizes: [] };
 
-          const queryParams = queryParamsFromLocation(location, defaultQueryParams, 'AppComponent');
+          const queryParams = queryParamsFromLocation(
+            location,
+            defaultQueryParams,
+            'AppComponent'
+          );
           expect(queryParams).toEqual({ sizes: ['medium'] });
         });
       });

@@ -1,6 +1,6 @@
 // Make sure you use `query-string` and not `querystring` which is
 // a Node.js library.
-import { parse } from 'query-string';
+import { parse, ParsedQuery } from 'query-string';
 
 /**
  * A function which augments the props with the queryParams from the
@@ -17,14 +17,20 @@ import { parse } from 'query-string';
 export function queryParamsFromLocation<QueryParams>(
   location: { search?: string },
   defaultQueryParams: QueryParams,
-  debugName: string,
+  debugName: string
 ): QueryParams {
-  const currentQueryParams = location.search ? queryParamsFromSearch(location.search) : {};
+  const currentQueryParams = location.search
+    ? queryParamsFromSearch(location.search)
+    : {};
   const mergedQueryParams = { ...defaultQueryParams, ...currentQueryParams };
-  return convertQueryParamsToConcreteType(mergedQueryParams, defaultQueryParams, debugName);
+  return convertQueryParamsToConcreteType(
+    mergedQueryParams,
+    defaultQueryParams,
+    debugName
+  );
 }
 
-function queryParamsFromSearch(search: string): object {
+function queryParamsFromSearch(search: string): ParsedQuery {
   if (search[0] === '?') {
     search = search.substr(1);
   }
@@ -45,25 +51,29 @@ function queryParamsFromSearch(search: string): object {
  * of the first item in the default values array. If the default
  * values array is empty, it defaults to only strings.
  *
- * @param {Object} queryParams
- * @param {Object} defaultQueryParams
+ * @param {QueryParams} queryParams The query params extracted from the location
+ * @param {QueryParams} defaultQueryParams The default query parameters
+ * @param {string} debugName The name to use for debugging purposes
+ * @returns {QueryParams} The QueryParams converted to a concrete type.
  */
 function convertQueryParamsToConcreteType<QueryParams>(
   queryParams: QueryParams,
   defaultQueryParams: QueryParams,
-  debugName: string,
+  debugName: string
 ): QueryParams {
-  const typedQueryParams: Record<string, any> = {};
+  const typedQueryParams: Record<string, unknown> = {};
 
   Object.keys(queryParams).forEach((key: string) => {
-    // @ts-ignore
+    // @ts-expect-error This is safe because it should have the same type as the QueryParams
     const defaultValue = defaultQueryParams[key];
 
     if (defaultValue === undefined) {
-      console.warn(`@42.nl/react-url: no default query param defined for "${key}" for: "${debugName}".`);
+      console.warn(
+        `@42.nl/react-url: no default query param defined for "${key}" for: "${debugName}".`
+      );
     }
 
-    // @ts-ignore
+    // @ts-expect-error This is safe because the key came from the query param.
     const actualValue = queryParams[key];
 
     // If we got a default value we do nothing.
@@ -84,7 +94,7 @@ function convertQueryParamsToConcreteType<QueryParams>(
       `{ filters: ['GREEN', 'RED'] }`
 
       However there is one gotcha: it will only transform to an array
-      when it encounters mulptile values for the same key, so this:
+      when it encounters multiple values for the same key, so this:
 
       `parse('?filters=ALL')`
 
@@ -104,14 +114,16 @@ function convertQueryParamsToConcreteType<QueryParams>(
 
       // Convert to an array if we got a singular value. Because
       // we always want to return an array.
-      const actualArray: string[] = Array.isArray(actualValue) ? actualValue : [actualValue];
+      const actualArray: string[] = Array.isArray(actualValue)
+        ? actualValue
+        : [actualValue];
 
       if (first === undefined) {
         typedQueryParams[key] = actualArray;
       } else {
         switch (typeof first) {
           case 'number':
-            typedQueryParams[key] = actualArray.map((s: any) => parseFloat(s));
+            typedQueryParams[key] = actualArray.map((s) => parseFloat(s));
             break;
 
           case 'boolean':

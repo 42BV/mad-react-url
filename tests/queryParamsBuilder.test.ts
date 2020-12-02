@@ -7,7 +7,7 @@ describe('test queryParamsBuilder', () => {
     const generatedUrl = queryParamsBuilder({
       url,
       queryParams: { query: 'test' },
-      defaultQueryParams: { query: 'test' },
+      defaultQueryParams: { query: 'test' }
     });
     expect(generatedUrl).toBe('/test');
   });
@@ -16,7 +16,7 @@ describe('test queryParamsBuilder', () => {
     const generatedUrl = queryParamsBuilder({
       url,
       queryParams: { query: 'test' },
-      defaultQueryParams: { query: 'default' },
+      defaultQueryParams: { query: 'default' }
     });
     expect(generatedUrl).toBe('/test?query=test');
   });
