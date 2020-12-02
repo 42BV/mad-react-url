@@ -10,22 +10,9 @@ export type UrlBuilderOptions<PathParams, QueryParams> = {
 };
 
 /**
- * Has two use cases:
- *
- * 1. Returns the abstract Url when only the `url` option key is
- *    provided. For example urlBuilder({ url: '/users/:id' }) returns.
- *
- * 2. Replaces all the matching keys in the path params in the url with the value,
- *    and adds all query params key value pairs as string key=value to the url minus
- *    all the key value matching in the defaultQueryParams
- *
- * The idea behind this is that `urlBuilder` can be used to either defined
- * urls for routes, and actually navigating to those routes.
- *
- * @example
- *  urlBuilder({ url: '/users/:id' })
- *
- *  results in: '/users/:id'
+ * Replaces all the matching keys in the path params in the url with the value,
+ * and adds all query params key value pairs as string key=value to the url minus
+ * all the key value matching in the defaultQueryParams.
  *
  * @example
  *  urlBuilder({
@@ -47,23 +34,23 @@ export type UrlBuilderOptions<PathParams, QueryParams> = {
  *
  * @param {String} options.url The url to be parsed
  * @param {Object} options.pathParams Consists of the matching key in the url to be replaced by the value.
- * @param {Object} options.queryParams
- * @param {Object} options.defaultQueryParams
+ * @param {Object} options.queryParams The query parameters for the url
+ * @param {Object} options.defaultQueryParams The default query parameters, the query params which match the defaults will be removed.
+ * @returns {String} The build fully built url
  */
 export function urlBuilder<PathParams, QueryParams>(
   options: UrlBuilderOptions<PathParams, QueryParams>
 ): Url {
-  const { url, pathParams, queryParams, defaultQueryParams } = options;
+  const {
+    url,
+    pathParams = {},
+    queryParams,
+    defaultQueryParams = {}
+  } = options;
 
-  // If we have no pathParams and queryParams return the abstract url.
-  if (!pathParams && !queryParams) {
-    return url;
-  }
+  const urlPath = pathParamsBuilder({ url, pathParams });
 
-  // @ts-expect-error The pathParams is really an object.
-  const urlPath = pathParams ? pathParamsBuilder({ url, pathParams }) : url;
-
-  if (queryParams && defaultQueryParams) {
+  if (queryParams) {
     return queryParamsBuilder({
       url: urlPath,
       queryParams,
