@@ -2,6 +2,18 @@ import { urlBuilder } from '../src/urlBuilder';
 import { Url } from '../src/models';
 
 describe('urlBuilder', () => {
+  it('should when path param is not provided and url is "" return ""', () => {
+    const url = '';
+
+    expect(urlBuilder({ url })).toBe(url);
+  });
+
+  it('should when path param is not provided and url is "/" return "/"', () => {
+    const url = '/';
+
+    expect(urlBuilder({ url })).toBe(url);
+  });
+
   it('should when path param is not provided return as is', () => {
     const url = '/users/:id';
 

@@ -26,7 +26,6 @@ export function queryParamsBuilder<QueryParams>(
 
   const params = ignoreDefaultQueryParameters(queryParams, defaultQueryParams);
 
-  // @ts-expect-error stringify will work because the params is an object.
   const urlParams = stringify(params, { encode: false });
   if (urlParams) {
     return `${url}?${urlParams}`;

@@ -1,6 +1,44 @@
 import { pathParamsBuilder } from '../src/pathParamsBuilder';
 
 describe('test pathParamsBuilder', () => {
+  describe('edge cases', () => {
+    test('when url is ""', () => {
+      const generatedUrl = pathParamsBuilder({
+        url: '',
+        pathParams: {}
+      });
+
+      expect(generatedUrl).toBe('');
+    });
+
+    test('when url is "" with path params', () => {
+      const generatedUrl = pathParamsBuilder({
+        url: '',
+        pathParams: { id: 1 }
+      });
+
+      expect(generatedUrl).toBe('');
+    });
+
+    test('when url is "/"', () => {
+      const generatedUrl = pathParamsBuilder({
+        url: '/',
+        pathParams: {}
+      });
+
+      expect(generatedUrl).toBe('/');
+    });
+
+    test('when url is "/" with path params', () => {
+      const generatedUrl = pathParamsBuilder({
+        url: '/',
+        pathParams: { id: 1 }
+      });
+
+      expect(generatedUrl).toBe('/');
+    });
+  });
+
   test('with path params', () => {
     const generatedUrl = pathParamsBuilder({
       url: '/users/:id/edit',

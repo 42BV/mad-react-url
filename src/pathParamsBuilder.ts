@@ -79,5 +79,11 @@ function pathParamToKey(pathParam: string): string {
 }
 
 function stripEndingSlashes(url: string): string {
+  // If the url is only a '/' which is the case for the home url
+  // then leave it a is.
+  if (url === '/') {
+    return url;
+  }
+
   return url.replace(/\/+$/, '');
 }
