@@ -26,7 +26,7 @@ export function queryParamsBuilder<QueryParams>(
 
   const params = ignoreDefaultQueryParameters(queryParams, defaultQueryParams);
 
-  const urlParams = stringify(params, { encode: false });
+  const urlParams = stringify(params);
   if (urlParams) {
     return `${url}?${urlParams}`;
   } else {
