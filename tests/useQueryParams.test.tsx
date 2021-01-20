@@ -59,6 +59,14 @@ describe('useQueryParams', () => {
 
     expect(result.current).toEqual({ query: 'henk' });
 
+    // Change to 'henk&jan'
+    rerender({
+      location: { search: '?query=henk%26jan' },
+      defaultQueryParams: { query: 'default' }
+    });
+
+    expect(result.current).toEqual({ query: 'henk&jan' });
+
     // Change to undefined so it uses the default
     rerender({
       location: { search: undefined },
