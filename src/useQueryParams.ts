@@ -50,11 +50,10 @@ export type Config<QueryParams> = {
  * @param {Object} options.debugName The name which will be used for debugging.
  * @returns {Object} The typed object representing the query params
  */
-export function useQueryParams<QueryParams>({
-  location,
-  defaultQueryParams,
-  debugName = ''
-}: Config<QueryParams>): QueryParams {
+export function useQueryParams<QueryParams extends Record<string, unknown>>(
+  options: Config<QueryParams>
+): QueryParams {
+  const { location, defaultQueryParams, debugName = '' } = options;
   const [queryParams, setQueryParams] = useState(() => {
     return queryParamsFromLocation(location, defaultQueryParams, debugName);
   });

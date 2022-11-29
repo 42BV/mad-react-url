@@ -38,9 +38,10 @@ export type UrlBuilderOptions<PathParams, QueryParams> = {
  * @param {Object} options.defaultQueryParams The default query parameters, the query params which match the defaults will be removed.
  * @returns {String} The build fully built url
  */
-export function urlBuilder<PathParams, QueryParams>(
-  options: UrlBuilderOptions<PathParams, QueryParams>
-): Url {
+export function urlBuilder<
+  PathParams extends Record<string, string>,
+  QueryParams extends Record<string, unknown>
+>(options: UrlBuilderOptions<PathParams, QueryParams>): Url {
   const {
     url,
     pathParams = {},

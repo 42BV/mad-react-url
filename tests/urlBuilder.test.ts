@@ -28,7 +28,7 @@ describe('urlBuilder', () => {
 
   it('should know how to return full urls with paths params', () => {
     const url = '/users/:id';
-    const pathParams = { id: 891 };
+    const pathParams = { id: '891' };
 
     const expected = '/users/891';
 
@@ -37,7 +37,7 @@ describe('urlBuilder', () => {
 
   it('should know how to return full urls with paths params and optional path params', () => {
     const url = '/users/:id/:action?';
-    const pathParams = { id: 891 };
+    const pathParams = { id: '891' };
 
     const expected = '/users/891';
 
@@ -66,7 +66,7 @@ describe('urlBuilder', () => {
 
   it('should know how to return urls with paths params and query params', () => {
     const url = '/users/:id';
-    const pathParams = { id: 891 };
+    const pathParams = { id: '891' };
     const queryParams = { search: 'awesome', num: 23 };
     const defaultQueryParams = {};
 
@@ -82,7 +82,7 @@ describe('urlBuilder', () => {
     // TypeScript will complain about the following code.
 
     type DashboardPathParams = {
-      id: number;
+      id: string;
     };
 
     type DashboardQueryParams = {
@@ -110,8 +110,8 @@ describe('urlBuilder', () => {
     }
 
     expect(toDashboard()).toBe('/dashboard/:id');
-    expect(toDashboard({ id: 42 })).toBe('/dashboard/42');
-    expect(toDashboard({ id: 42 }, { page: 1337 })).toBe(
+    expect(toDashboard({ id: '42' })).toBe('/dashboard/42');
+    expect(toDashboard({ id: '42' }, { page: 1337 })).toBe(
       '/dashboard/42?page=1337'
     );
   });

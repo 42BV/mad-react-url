@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 
 import { useQueryParams, Config } from '../src/useQueryParams';
 
@@ -8,8 +8,8 @@ type QueryParams = {
 
 describe('useQueryParams', () => {
   test('that it changes based on location search', () => {
-    const { result, rerender } = renderHook<Config<QueryParams>, QueryParams>(
-      (config) => useQueryParams(config),
+    const { result, rerender } = renderHook<QueryParams, Config<QueryParams>>(
+      (config: Config<QueryParams>) => useQueryParams(config),
       {
         initialProps: {
           location: { search: '?query=hallo' },

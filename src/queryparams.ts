@@ -14,7 +14,9 @@ import { parse, ParsedQuery } from 'query-string';
  * parameters (which all come out as strings) to the type of
  * the defaultQueryParameter.
  */
-export function queryParamsFromLocation<QueryParams>(
+export function queryParamsFromLocation<
+  QueryParams extends Record<string, unknown>
+>(
   location: { search?: string },
   defaultQueryParams: QueryParams,
   debugName: string
@@ -23,7 +25,7 @@ export function queryParamsFromLocation<QueryParams>(
     ? queryParamsFromSearch(location.search)
     : {};
   const mergedQueryParams = { ...defaultQueryParams, ...currentQueryParams };
-  return convertQueryParamsToConcreteType(
+  return convertQueryParamsToConcreteType<QueryParams>(
     mergedQueryParams,
     defaultQueryParams,
     debugName
@@ -56,7 +58,9 @@ function queryParamsFromSearch(search: string): ParsedQuery {
  * @param {string} debugName The name to use for debugging purposes
  * @returns {QueryParams} The QueryParams converted to a concrete type.
  */
-function convertQueryParamsToConcreteType<QueryParams>(
+function convertQueryParamsToConcreteType<
+  QueryParams extends Record<string, unknown>
+>(
   queryParams: QueryParams,
   defaultQueryParams: QueryParams,
   debugName: string
@@ -64,7 +68,6 @@ function convertQueryParamsToConcreteType<QueryParams>(
   const typedQueryParams: Record<string, unknown> = {};
 
   Object.keys(queryParams).forEach((key: string) => {
-    // @ts-expect-error This is safe because it should have the same type as the QueryParams
     const defaultValue = defaultQueryParams[key];
 
     if (defaultValue === undefined) {
@@ -73,7 +76,6 @@ function convertQueryParamsToConcreteType<QueryParams>(
       );
     }
 
-    // @ts-expect-error This is safe because the key came from the query param.
     const actualValue = queryParams[key];
 
     // If we got a default value we do nothing.
@@ -139,11 +141,11 @@ function convertQueryParamsToConcreteType<QueryParams>(
       // actualValue should be a string here.
       switch (typeof defaultValue) {
         case 'number':
-          typedQueryParams[key] = parseFloat(actualValue);
+          typedQueryParams[key] = parseFloat(actualValue as string);
           break;
 
         case 'boolean':
-          typedQueryParams[key] = stringToBoolean(actualValue);
+          typedQueryParams[key] = stringToBoolean(actualValue as string);
           break;
 
         default:
@@ -156,5 +158,5 @@ function convertQueryParamsToConcreteType<QueryParams>(
 }
 
 function stringToBoolean(value: string): boolean {
-  return value === 'true' ? true : false;
+  return value === 'true';
 }
