@@ -19,7 +19,7 @@ export type QueryParamsBuilderOptions<QueryParams> = {
  * @param {Object} options.queryParams The query params as an object.
  * @param {Object} options.defaultQueryParams The default query parameters.
  */
-export function queryParamsBuilder<QueryParams>(
+export function queryParamsBuilder<QueryParams extends Record<string, unknown>>(
   options: QueryParamsBuilderOptions<QueryParams>
 ): Url {
   const { url, queryParams, defaultQueryParams } = options;
@@ -34,18 +34,15 @@ export function queryParamsBuilder<QueryParams>(
   }
 }
 
-function ignoreDefaultQueryParameters<QueryParams>(
-  queryParams: QueryParams,
-  defaultQueryParams: QueryParams
-): QueryParams {
+function ignoreDefaultQueryParameters<
+  QueryParams extends Record<string, unknown>
+>(queryParams: QueryParams, defaultQueryParams: QueryParams): QueryParams {
   // Remove all values from the queryParams which match the defaultQueryParams
   const defaultRemovedQueryParams: Record<string, unknown> = {};
 
   Object.keys(queryParams).forEach((key: string) => {
-    // @ts-expect-error This is safe because it should have the same type as the QueryParams
     const defaultValue = defaultQueryParams[key];
 
-    // @ts-expect-error This is safe because the key came from the query param.
     const actualValue = queryParams[key];
 
     // Only if it is not equal to the default value keep it.

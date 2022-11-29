@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react';
-import { shallow } from 'enzyme';
-
 import { withQueryParams, WithQueryProps } from '../src/withQueryParams';
+import { render } from '@testing-library/react';
 
 type QueryParams = {
   query: string;
@@ -17,7 +16,7 @@ describe('Test withQueryParams HOC', () => {
 
   beforeEach(() => {
     const component: FunctionComponent<Props> = (props): React.ReactElement => {
-      return <h1>Hello, {props.name}</h1>;
+      return <>{JSON.stringify(props, null, 2)}</>;
     };
 
     Welcome = withQueryParams(component, { query: 'default' });
@@ -26,16 +25,38 @@ describe('Test withQueryParams HOC', () => {
   it('should use the default params when search is empty', () => {
     const location = { search: '' };
 
-    const welcome = shallow(<Welcome location={location} name="hallo" />);
+    const { container } = render(<Welcome location={location} name="hallo" />);
 
-    expect(welcome.props().queryParams.query).toBe('default');
+    expect(container).toMatchInlineSnapshot(
+      `
+      <div>
+        {
+        "queryParams": {
+          "query": "default"
+        },
+        "name": "hallo"
+      }
+      </div>
+    `
+    );
   });
 
   it('should use the query params if they are provided', () => {
     const location = { search: '?query=hallo' };
 
-    const welcome = shallow(<Welcome location={location} name="hallo" />);
+    const { container } = render(<Welcome location={location} name="hallo" />);
 
-    expect(welcome.props().queryParams.query).toBe('hallo');
+    expect(container).toMatchInlineSnapshot(
+      `
+      <div>
+        {
+        "queryParams": {
+          "query": "hallo"
+        },
+        "name": "hallo"
+      }
+      </div>
+    `
+    );
   });
 });

@@ -33,10 +33,13 @@ export type WithQueryProps<QueryParams> = {
  * Can also support arrays and convert to actual types as well.
  *
  * @param {React.ComponentType<P>} Component The react component which you want to encapsulate with the withQueryParams HoC
- * @param {Object} defaultQueryParameters The default query parameters which will be used to fill in any blanks in the query params
- * @returns {HoC} which provides the query params as a prop.
+ * @param {Object} defaultQueryParams The default query parameters which will be used to fill in any blanks in the query params
+ * @returns Component wrapped with HoC which provides the query params as a prop.
  */
-export const withQueryParams = <P extends Record<string, unknown>, QueryParams>(
+export const withQueryParams = <
+  P extends Record<string, unknown>,
+  QueryParams extends Record<string, unknown>
+>(
   Component: React.ComponentType<P>,
   defaultQueryParams: QueryParams
 ): React.ComponentClass<P & WithQueryProps<QueryParams>> => {
