@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/42BV/mad-react-url#readme",
   "dependencies": {
-    "query-string": "7.1.1",
+    "query-string": "7.1.2",
     "react-display-name": "0.2.5"
   },
   "peerDependencies": {
