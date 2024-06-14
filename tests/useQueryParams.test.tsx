@@ -75,4 +75,47 @@ describe('useQueryParams', () => {
 
     expect(result.current).toEqual({ query: 'default' });
   });
+
+  test('that it uses window location when not providing location', () => {
+    const mockSearch = jest.fn();
+    Object.defineProperty(window, 'location', {
+      value: {
+        get search() {
+          return mockSearch();
+        }
+      }
+    });
+    mockSearch.mockReturnValue('?query=red');
+
+    const defaultQueryParams = { query: 'default' };
+
+    const { result, rerender } = renderHook<QueryParams, Config<QueryParams>>(
+      (config: Config<QueryParams>) => useQueryParams(config),
+      {
+        initialProps: {
+          defaultQueryParams
+        }
+      }
+    );
+
+    // Test that the first result will be 'hallo'
+    const initialResult = result.current;
+    expect(initialResult).toEqual({ query: 'red' });
+
+    // Change to something else
+    mockSearch.mockReturnValue('?query=blue');
+    rerender({
+      defaultQueryParams
+    });
+
+    expect(result.current).toEqual({ query: 'blue' });
+
+    // Change to empty string so it uses the default
+    mockSearch.mockReturnValue('');
+    rerender({
+      defaultQueryParams
+    });
+
+    expect(result.current).toEqual({ query: 'default' });
+  });
 });

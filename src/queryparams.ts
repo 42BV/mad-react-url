@@ -16,14 +16,18 @@ import { parse, ParsedQuery } from 'query-string';
  */
 export function queryParamsFromLocation<
   QueryParams extends Record<string, unknown>
->(
-  location: { search?: string },
-  defaultQueryParams: QueryParams,
-  debugName: string
-): QueryParams {
-  const currentQueryParams = location.search
-    ? queryParamsFromSearch(location.search)
-    : {};
+>({
+  location,
+  defaultQueryParams,
+  debugName
+}: {
+  location?: { search?: string };
+  defaultQueryParams: QueryParams;
+  debugName: string;
+}): QueryParams {
+  const currentQueryParams = queryParamsFromSearch(
+    location ? location.search : window.location.search
+  );
   const mergedQueryParams = { ...defaultQueryParams, ...currentQueryParams };
   return convertQueryParamsToConcreteType<QueryParams>(
     mergedQueryParams,
@@ -32,9 +36,13 @@ export function queryParamsFromLocation<
   );
 }
 
-function queryParamsFromSearch(search: string): ParsedQuery {
+function queryParamsFromSearch(search?: string): ParsedQuery {
+  if (!search) {
+    return {};
+  }
+
   if (search[0] === '?') {
-    search = search.substr(1);
+    search = search.slice(1);
   }
 
   return parse(search);

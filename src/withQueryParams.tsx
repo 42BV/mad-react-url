@@ -50,13 +50,13 @@ export const withQueryParams = <
       const { location, ...props } = this.props;
 
       // @ts-expect-error accept that there might be a displayName;
-      const debug = WithQueryParams.displayName;
+      const debugName: string = WithQueryParams.displayName;
 
-      const typedQueryParams = queryParamsFromLocation(
+      const typedQueryParams = queryParamsFromLocation({
         location,
         defaultQueryParams,
-        debug
-      );
+        debugName
+      });
 
       return <Component queryParams={typedQueryParams} {...(props as P)} />;
     }

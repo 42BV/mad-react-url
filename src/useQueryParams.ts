@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { queryParamsFromLocation } from './queryparams';
 
 export type Config<QueryParams> = {
-  location: { search?: string; key?: string };
+  location?: { search?: string; key?: string };
   defaultQueryParams: QueryParams;
   debugName?: string;
 };
@@ -55,20 +55,18 @@ export function useQueryParams<QueryParams extends Record<string, unknown>>(
 ): QueryParams {
   const { location, defaultQueryParams, debugName = '' } = options;
   const [queryParams, setQueryParams] = useState(() => {
-    return queryParamsFromLocation(location, defaultQueryParams, debugName);
+    return queryParamsFromLocation({ location, defaultQueryParams, debugName });
   });
 
-  const [search, setSearch] = useState(location.search);
-
-  if (search !== location.search) {
-    const params = queryParamsFromLocation(
-      location,
-      defaultQueryParams,
-      debugName
+  useEffect(() => {
+    setQueryParams(
+      queryParamsFromLocation({
+        location,
+        defaultQueryParams,
+        debugName
+      })
     );
-    setQueryParams(params);
-    setSearch(location.search);
-  }
+  }, [location ? location.search : window.location.search]);
 
   return queryParams;
 }
