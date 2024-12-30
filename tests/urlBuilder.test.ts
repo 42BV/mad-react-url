@@ -81,6 +81,7 @@ describe('urlBuilder', () => {
     // We are testing the typescript types here so a failure means
     // TypeScript will complain about the following code.
 
+    //
     type DashboardPathParams = {
       id: string;
     };

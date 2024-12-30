@@ -1,6 +1,6 @@
 // Make sure you use `query-string` and not `querystring` which is
 // a Node.js library.
-import { parse, ParsedQuery } from 'query-string';
+import queryString, { ParsedQuery } from 'query-string';
 
 /**
  * A function which augments the props with the queryParams from the
@@ -45,7 +45,7 @@ function queryParamsFromSearch(search?: string): ParsedQuery {
     search = search.slice(1);
   }
 
-  return parse(search);
+  return queryString.parse(search);
 }
 
 /**
