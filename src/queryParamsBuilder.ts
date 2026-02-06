@@ -1,4 +1,4 @@
-import { stringify } from 'query-string';
+import queryString from 'query-string';
 import { Url } from './models';
 
 export type QueryParamsBuilderOptions<QueryParams> = {
@@ -26,7 +26,7 @@ export function queryParamsBuilder<QueryParams extends Record<string, unknown>>(
 
   const params = ignoreDefaultQueryParameters(queryParams, defaultQueryParams);
 
-  const urlParams = stringify(params);
+  const urlParams = queryString.stringify(params);
   if (urlParams) {
     return `${url}?${urlParams}`;
   } else {
