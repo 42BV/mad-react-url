@@ -77,7 +77,7 @@ describe('useQueryParams', () => {
   });
 
   test('that it uses window location when not providing location', () => {
-    const mockSearch = jest.fn();
+    const mockSearch = vi.fn();
     Object.defineProperty(window, 'location', {
       value: {
         get search() {

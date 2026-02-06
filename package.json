@@ -34,34 +34,31 @@
   "devDependencies": {
     "@eslint/js": "9.39.2",
     "@testing-library/react": "16.3.2",
-    "@types/jest": "29.5.14",
     "@types/lodash.reduce": "4.6.9",
     "@types/react": "19.2.13",
     "@types/react-dom": "19.2.3",
+    "@vitest/coverage-v8": "4.0.18",
     "eslint": "9.39.2",
     "eslint-config-prettier": "10.1.8",
-    "eslint-plugin-jest": "28.10.0",
     "eslint-plugin-prettier": "5.5.5",
     "eslint-plugin-react": "7.37.5",
     "husky": "9.1.7",
-    "jest": "29.7.0",
-    "jest-environment-jsdom": "29.7.0",
-    "jest-watch-typeahead": "2.2.2",
+    "jsdom": "28.0.0",
     "lint-staged": "16.2.7",
     "np": "11.0.2",
     "prettier": "3.8.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "ts-jest": "29.4.6",
     "typescript": "5.9.3",
-    "typescript-eslint": "8.54.0"
+    "typescript-eslint": "8.54.0",
+    "vitest": "4.0.18"
   },
   "scripts": {
-    "start": "jest --watch --coverage",
+    "start": "vitest --coverage",
     "clean": "rm -rf lib",
     "test": "npm run lint && npm run test:ts && npm run test:coverage",
     "test:ts": "tsc --version && tsc --noEmit",
-    "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js test --no-cache --coverage",
+    "test:coverage": "vitest run --coverage",
     "docs": "jekyll serve --source docs",
     "tsc": "npm run clean && tsc --version && tsc",
     "lint": "npm run lint:test && npm run lint:src",
@@ -70,34 +67,6 @@
     "release": "npm run tsc && np",
     "dev:publish": "./scripts/dev-publish.sh",
     "version": "npm run tsc && jekyll build"
-  },
-  "jest": {
-    "testEnvironment": "jsdom",
-    "preset": "ts-jest",
-    "roots": [
-      "src",
-      "tests"
-    ],
-    "collectCoverageFrom": [
-      "./src/**/*.{ts,tsx}"
-    ],
-    "setupFilesAfterEnv": [
-      "./tests/setupTests.ts"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 100,
-        "functions": 100,
-        "lines": 100,
-        "statements": 100
-      }
-    },
-    "restoreMocks": true,
-    "watchPlugins": [
-      "jest-watch-typeahead/filename",
-      "jest-watch-typeahead/testname"
-    ],
-    "transform": {}
   },
   "lint-staged": {
     "{src,tests}/**/*.{js,jsx,json,scss,ts,tsx}": [

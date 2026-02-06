@@ -9,10 +9,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 - **Full test suite:** `npm test` (runs lint + type check + coverage with 100% threshold)
-- **Run tests only:** `npx jest`
-- **Run single test:** `npx jest tests/queryparams.test.ts`
-- **Run tests matching pattern:** `npx jest -t "should parse query params"`
-- **Watch mode with coverage:** `npm start`
+- **Run tests only:** `npx vitest run`
+- **Run single test:** `npx vitest run tests/queryparams.test.ts`
+- **Run tests matching pattern:** `npx vitest run -t "should parse query params"`
+- **Watch mode:** `npm start`
 - **Lint:** `npm run lint`
 - **Type check:** `npm run test:ts`
 - **Build:** `npm run tsc` (outputs to `lib/`)

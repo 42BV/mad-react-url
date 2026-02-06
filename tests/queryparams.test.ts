@@ -76,7 +76,7 @@ describe('queryParamsFromLocation', () => {
 
   describe('conversions', () => {
     it('should warn when default query parameters does not contain a query param', () => {
-      jest.spyOn(console, 'warn').mockImplementation(() => undefined);
+      vi.spyOn(console, 'warn').mockImplementation(() => undefined);
 
       Object.defineProperty(window, 'location', {
         writable: true,
