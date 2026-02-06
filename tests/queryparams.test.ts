@@ -186,9 +186,10 @@ describe('queryParamsFromLocation', () => {
       });
 
       it('should know how to tranform arrays of numbers', () => {
-        global.window.location = {
-          search: '?numbers=1&numbers=2&numbers=3'
-        } as Location;
+        Object.defineProperty(window, 'location', {
+          writable: true,
+          value: { search: '?numbers=1&numbers=2&numbers=3' }
+        });
         const defaultQueryParams = { numbers: [42] };
 
         const queryParams = queryParamsFromLocation({
@@ -199,9 +200,10 @@ describe('queryParamsFromLocation', () => {
       });
 
       it('should know how to tranform arrays of booleans', () => {
-        global.window.location = {
-          search: '?visible=true&visible=false&visible=false'
-        } as Location;
+        Object.defineProperty(window, 'location', {
+          writable: true,
+          value: { search: '?visible=true&visible=false&visible=false' }
+        });
         const defaultQueryParams = { visible: [true] };
 
         const queryParams = queryParamsFromLocation({
@@ -212,9 +214,10 @@ describe('queryParamsFromLocation', () => {
       });
 
       it('should when it cannot guess the type, due to empty default, revert to strings', () => {
-        global.window.location = {
-          search: '?sizes=medium&sizes=large&sizes=small'
-        } as Location;
+        Object.defineProperty(window, 'location', {
+          writable: true,
+          value: { search: '?sizes=medium&sizes=large&sizes=small' }
+        });
         const defaultQueryParams = { sizes: [] };
 
         const queryParams = queryParamsFromLocation({
